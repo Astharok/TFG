@@ -1,0 +1,16 @@
+.vertical-center {
+  min-height: 100%;
+  min-height: 50vh;
+
+  display: grid;
+  align-items: center;
+  text-align: center;
+}
+
+.jumbotron{
+    width:  100%;
+}
+
+.logoMain{
+    height: 200px;
+}
