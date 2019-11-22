@@ -14,3 +14,26 @@
 .logoMain{
     height: 200px;
 }
+
+div.login-form{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 300px;
+    background-color: rgba(0,0,0,0.1);
+}
+
+form.login-form{
+    background-color: floralwhite;
+    padding: 6%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}

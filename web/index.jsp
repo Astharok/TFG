@@ -1,3 +1,10 @@
+<%-- 
+    Document   : indexPrueba
+    Created on : 22-nov-2019, 12:18:16
+    Author     : Jose Raimundo Montes Lopez
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -11,6 +18,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/CustomFunctions.js"></script>
+        <%@include  file="loginform.html" %>
     </head>
     <body>
         <header>
@@ -20,7 +28,7 @@
                         <a class="navbar-brand" href="index.html">Gamer Zone</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><button type="button" class="btn btn-secondary" onclick="window.location='login.html';">Login</button></li>
+                        <li><button type="button" class="btn btn-secondary" onclick="loginFormToogleShow();">Login</button></li>
                     </ul>
                 </div>
             </nav>
