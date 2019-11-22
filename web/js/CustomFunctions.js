@@ -10,16 +10,30 @@ function loginFormToogleShow(){
     }
 }
 
-function loginButton2(showhide){
-    const vis = document.getElementById('main-login-form').style.visibility;
-    if(vis == "hidden"){
-        document.getElementById('main-login-form').style.visibility="visible";
-    }
-    if(showhide == "show"){
-        document.getElementById('main-login-form').style.visibility="visible";
-    }else if(showhide == "hide"){
-        document.getElementById('main-login-form').style.visibility="hidden"; 
-    }
+function login(){
+    var apodo = $('#userName').val();
+    var password = $('#password').val();
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.LOGIN',
+            APODO: apodo,
+            PASSWORD: password
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if(responseText.STATE == "SUCCESS"){
+                if(responseText.GROUP_NAME == "Administradores"){
+                    window.location.href = "administration.jsp";
+                }else{
+                    alert(responseText.STATE + ": " + responseText.MESSAGE);
+                }
+            }
+            if(responseText.STATE == "FAILURE"){
+                alert(responseText.STATE + ": " + responseText.MESSAGE);
+            }
+        }
+    });
 }
 
 function register() {

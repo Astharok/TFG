@@ -9,6 +9,7 @@ import DAOFactory.DAOFactory;
 import Interfaces.UsuarioDAO;
 import beans.Usuarios;
 import interfaces.Action;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import util.Util;
@@ -23,17 +24,35 @@ public class UsuarioAction implements Action {
 
     @Override
     public String execute(HttpServletRequest request, HttpServletResponse response) {
-        String cadDestino = "";
+        String results = "";
         String action = (String) request.getParameter("ACTION");
         String[] arrayAction = action.split("\\.");
 
         switch (arrayAction[1]) {
             case "REGISTER":
-                cadDestino = register(request, response);
+                results = register(request, response);
+                break;
+            case "LOGIN":
+                System.out.println("TRACE: " + "Controller.Usuario.Login");
+                results = login(request, response);
                 break;
         }
 
-        return cadDestino;
+        return results;
+    }
+    
+    private String login(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+
+        Usuarios usuario = new Usuarios();
+        usuario.setApodo(request.getParameter("APODO"));
+        usuario.setPassword(request.getParameter("PASSWORD"));
+
+        usuarioDAO.logIn(usuario);
+        
+        Map<String, String> res = usuarioDAO.logIn(usuario);
+
+        return Util.toJson(res);
     }
     
     private String register(HttpServletRequest request, HttpServletResponse response) {
