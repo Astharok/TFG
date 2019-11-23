@@ -47,8 +47,6 @@ public class UsuarioAction implements Action {
         Usuarios usuario = new Usuarios();
         usuario.setApodo(request.getParameter("APODO"));
         usuario.setPassword(request.getParameter("PASSWORD"));
-
-        usuarioDAO.logIn(usuario);
         
         Map<String, String> res = usuarioDAO.logIn(usuario);
 

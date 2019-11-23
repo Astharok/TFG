@@ -7,6 +7,8 @@ package Controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -47,9 +49,18 @@ public class ControllerTFG extends HttpServlet {
                     System.out.println("TRACE: " + "Controller.Usuario");
                     results = new UsuarioAction().execute(request, response);
                     break;
+                case "Equipo":
+                    System.out.println("TRACE: " + "Controller.Equipo");
+                    results = new EquipoAction().execute(request, response);
+                    break;
                     
                 default:
             }
+            
+            if(results == null || results == ""){
+                results = generateFailRequest();
+            }
+            
             out.print(results);
             
             Util.showResults(Util.fromJson(results));
@@ -74,6 +85,13 @@ public class ControllerTFG extends HttpServlet {
         } catch (ServletException | IOException ex) {
             Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
         }*/
+    }
+    
+    private String generateFailRequest () {
+        Map<String, String> resFail = new HashMap<String, String>();
+        resFail.put("STATE", "FAILURE");
+        resFail.put("MESSAGE", "Funcion requerida no implementada");
+        return Util.toJson(resFail);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
