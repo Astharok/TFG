@@ -1,0 +1,23 @@
+<div id="main-saldo-form" class="saldo-form hidden" onclick="formToogleShow('main-saldo-form');">
+    <form class="saldo-form" method="get" action="javascript:changeSaldo();" onclick="window.event.stopPropagation();">
+        <h2 class="text-center">Cambiar saldo</h2>
+        <div class="form-group">
+            <input id = "idUsuarioSaldo" type="hidden" class="form-control" value="0">
+        </div>
+        <div class="form-group">
+            <select id="actionSaldo" class="form-control">
+                <option selected>Sumar al saldo</option>
+                <option>Restar al saldo</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input id = "cantidad" type="text" class="form-control" placeholder="Cantidad">
+        </div>
+        <div class="form-group">
+            <input id = "notas" type="text" class="form-control" placeholder="Notas">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Cambiar</button>
+        </div>
+    </form>
+</div>

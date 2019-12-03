@@ -58,6 +58,46 @@ and open the template in the editor.
     margin-bottom: 15px;
 }
 
+div.register-form{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 200px;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+form.register-form{
+    background-color: floralwhite;
+    padding: 6%;
+}
+
+div.saldo-form{
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    padding-left: 30%;
+    padding-right: 30%;
+    padding-top: 200px;
+    background-color: rgba(0,0,0,0.1);
+    z-index: 100;
+}
+
+form.saldo-form{
+    background-color: floralwhite;
+    padding: 6%;
+}
+
+.hidden {
+    visibility: hidden;
+}
+
+.visible {
+    visibility: visible;
+}
+
 @keyframes fadeEffect {
   from {opacity: 0;}
   to {opacity: 1;}

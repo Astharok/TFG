@@ -46,12 +46,13 @@ public class ControllerTFG extends HttpServlet {
             switch (arrayAction[0]) {
 
                 case "Usuario":
-                    System.out.println("TRACE: " + "Controller.Usuario");
                     results = new UsuarioAction().execute(request, response);
                     break;
                 case "Equipo":
-                    System.out.println("TRACE: " + "Controller.Equipo");
                     results = new EquipoAction().execute(request, response);
+                    break;
+                case "Grupo":
+                    results = new GrupoAction().execute(request, response);
                     break;
                     
                 default:

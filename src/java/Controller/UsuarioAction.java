@@ -7,6 +7,8 @@ package Controller;
 
 import DAOFactory.DAOFactory;
 import Interfaces.UsuarioDAO;
+import beans.GruposUsuarios;
+import beans.Recargas;
 import beans.Usuarios;
 import interfaces.Action;
 import java.util.Map;
@@ -33,8 +35,13 @@ public class UsuarioAction implements Action {
                 results = register(request, response);
                 break;
             case "LOGIN":
-                System.out.println("TRACE: " + "Controller.Usuario.Login");
                 results = login(request, response);
+                break;
+            case "LOADALL":
+                results = loadAll(request, response);
+                break;
+            case "CHANGESALDO":
+                results = changesaldo(request, response);
                 break;
         }
 
@@ -55,6 +62,9 @@ public class UsuarioAction implements Action {
     
     private String register(HttpServletRequest request, HttpServletResponse response) {
         UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+        
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setIDGrupoUsuarios(Integer.parseInt(request.getParameter("GRUPOFK")));
 
         Usuarios usuario = new Usuarios();
         usuario.setNombre(request.getParameter("NOMBRE"));
@@ -63,18 +73,33 @@ public class UsuarioAction implements Action {
         usuario.setPassword(request.getParameter("PASSWORD"));
         usuario.setEmail(request.getParameter("EMAIL"));
         usuario.setTelefono(request.getParameter("TELEFONO"));
+        usuario.setIDGrupoUsuarioFK(grupo);
+        
+        Map<String, String> res = usuarioDAO.insertarUsuario(usuario);
 
-        Boolean insertar = usuarioDAO.insertarUsuario(usuario);
+        return Util.toJson(res);
+    }
+    
+    private String loadAll(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
         
-        String res = "";
+        Map<String, String> res = usuarioDAO.loadAll();
+
+        return Util.toJson(res);
+    }
+
+    private String changesaldo(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+
+        Usuarios usuario = new Usuarios();
+        usuario.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIO")));
         
-        if(insertar){
-            res = "SUCCESS";
-            res += "Usuario '" + usuario.getApodo() + "' insertado";
-        } else {
-            res = "ERROR";
-            res += "Error al insertar Usuario '" + usuario.getApodo() + "'";
-        }
+        Recargas recarga = new Recargas();
+        recarga.setCantidad(Double.parseDouble(request.getParameter("CANTIDAD")));
+        recarga.setNotas(request.getParameter("NOTAS"));
+        recarga.setIDUsuarioFK(usuario);
+        
+        Map<String, String> res = usuarioDAO.changeSaldo(recarga);
 
         return Util.toJson(res);
     }

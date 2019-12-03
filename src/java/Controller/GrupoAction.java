@@ -6,7 +6,8 @@
 package Controller;
 
 import DAOFactory.DAOFactory;
-import Interfaces.EquipoDAO;
+import Interfaces.GrupoDAO;
+import beans.GruposUsuarios;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import util.Util;
  *
  * @author Jose Raimundo Montes Lopez
  */
-public class EquipoAction implements Action {
+public class GrupoAction implements Action {
     
     DAOFactory bd = DAOFactory.getDAOFactory(DAOFactory.MY_SQL);
 
@@ -28,18 +29,21 @@ public class EquipoAction implements Action {
         String[] arrayAction = action.split("\\.");
 
         switch (arrayAction[1]) {
-            case "LOADALL":
-                results = loadAll(request, response);
+            case "FIND":
+                results = find(request, response);
                 break;
         }
 
         return results;
     }
-    
-    private String loadAll(HttpServletRequest request, HttpServletResponse response) {
-        EquipoDAO equipoDAO = bd.getEquipoDAO();
+
+    private String find(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setNombre(request.getParameter("GRUPO"));
         
-        Map<String, String> res = equipoDAO.loadAll();
+        Map<String, String> res = grupoDAO.find(grupo);
 
         return Util.toJson(res);
     }

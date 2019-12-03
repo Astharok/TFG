@@ -18,13 +18,15 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/CustomFunctions.js"></script>
+        <%@include  file="forms/registerform.html" %>
+        <%@include  file="forms/changesaldoform.html" %>
     </head>
     <body onload="javascript:loadContent()">
         <header>
             <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-dark bg-dark navbar-right">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html">Gamer Zone</a>
+                        <a class="navbar-brand" href="index.jsp">Gamer Zone</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
                         <li><button type="button" class="btn btn-secondary" onclick="disconnect();">Desconectar</button></li>
@@ -54,9 +56,32 @@
                     </table>
             </div>
 
-            <div id="Usuarios" class="tabcontent">
-                <h3>Paris</h3>
-                <p>Paris is the capital of France.</p>
+            <div id="Usuarios" class="tabcontent content" >
+                <div class="dropdown">
+                    <button class="btn btn-secondary dropdown-toggle" type="button" id="usersMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Menú
+                    </button>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-register-form');">Crear usuario</button>
+                        <button class="dropdown-item" type="button">Crear alerta</button>
+                    </div>
+                </div>
+                <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Apodo</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Apellidos</th>
+                                <th scope="col">Email</th>.
+                                <th scope="col">Teléfono</th>
+                                <th scope="col">Saldo</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                            <tbody id="UsuariosRows" class="">
+                            </tbody>
+                    </table>
             </div>
 
             <div id="Ajustes" class="tabcontent">

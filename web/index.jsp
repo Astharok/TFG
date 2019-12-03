@@ -18,17 +18,17 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/CustomFunctions.js"></script>
-        <%@include  file="loginform.html" %>
+        <%@include  file="forms/loginform.html" %>
     </head>
     <body>
         <header>
             <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-dark bg-dark navbar-right">
                 <div class="container-fluid">
                     <div class="navbar-header">
-                        <a class="navbar-brand" href="index.html">Gamer Zone</a>
+                        <a class="navbar-brand" href="index.jsp">Gamer Zone</a>
                     </div>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><button type="button" class="btn btn-secondary" onclick="loginFormToogleShow();">Login</button></li>
+                        <li><button type="button" class="btn btn-secondary" onclick="formToogleShow('main-login-form');">Login</button></li>
                     </ul>
                 </div>
             </nav>
