@@ -34,6 +34,7 @@ public class ControllerTFG extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("TRACE: " + "NUEVA CONSULTA -------------------------------------------------------");
         System.out.println("TRACE: " + "Controller");
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out;
@@ -46,13 +47,28 @@ public class ControllerTFG extends HttpServlet {
             switch (arrayAction[0]) {
 
                 case "Usuario":
+                    System.out.println("TRACE: " + "Usuario");
                     results = new UsuarioAction().execute(request, response);
                     break;
                 case "Equipo":
+                    System.out.println("TRACE: " + "Equipo");
                     results = new EquipoAction().execute(request, response);
                     break;
                 case "Grupo":
+                    System.out.println("TRACE: " + "Grupo");
                     results = new GrupoAction().execute(request, response);
+                    break;
+                case "Mensaje":
+                    System.out.println("TRACE: " + "Mensaje");
+                    results = new MensajeAction().execute(request, response);
+                    break;
+                case "Conversacion":
+                    System.out.println("TRACE: " + "Conversacion");
+                    results = new ConversacionAction().execute(request, response);
+                    break;
+                case "Sesion":
+                    System.out.println("TRACE: " + "Sesion");
+                    results = new SesionAction().execute(request, response);
                     break;
                     
                 default:
@@ -65,6 +81,8 @@ public class ControllerTFG extends HttpServlet {
             out.print(results);
             
             Util.showResults(Util.fromJson(results));
+            
+            System.out.println("TRACE: " + "FIN CONSULTA -------------------------------------------------------");
             
             response.setStatus(HttpServletResponse.SC_OK);
             

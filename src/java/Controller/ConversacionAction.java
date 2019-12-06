@@ -6,7 +6,8 @@
 package Controller;
 
 import DAOFactory.DAOFactory;
-import Interfaces.EquipoDAO;
+import Interfaces.ConversacionDAO;
+import beans.Usuarios;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -17,8 +18,8 @@ import util.Util;
  *
  * @author Jose Raimundo Montes Lopez
  */
-public class EquipoAction implements Action {
-    
+public class ConversacionAction implements Action {
+
     DAOFactory bd = DAOFactory.getDAOFactory(DAOFactory.MY_SQL);
 
     @Override
@@ -28,19 +29,25 @@ public class EquipoAction implements Action {
         String[] arrayAction = action.split("\\.");
 
         switch (arrayAction[1]) {
-            case "LOADALL":
-                System.out.println("TRACE: " + "LOADALL");
-                results = loadAll(request, response);
+            case "FIND":
+                System.out.println("TRACE: " + "FIND");
+                results = find(request, response);
                 break;
         }
 
         return results;
     }
-    
-    private String loadAll(HttpServletRequest request, HttpServletResponse response) {
-        EquipoDAO equipoDAO = bd.getEquipoDAO();
+
+    private String find(HttpServletRequest request, HttpServletResponse response) {
+        ConversacionDAO conversacionDAO = bd.getConversacionDAO();
         
-        Map<String, String> res = equipoDAO.loadAll();
+        Usuarios usuarioA = new Usuarios();
+        usuarioA.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIOA")));
+        
+        Usuarios usuarioB = new Usuarios();
+        usuarioB.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIOB")));
+        
+        Map<String, String> res = conversacionDAO.find(usuarioA, usuarioB);
 
         return Util.toJson(res);
     }

@@ -17,10 +17,11 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/jquery-3.3.1.min.js"></script>
-        <script src="js/CustomFunctions.js"></script>
+        <script src="js/utils.js"></script>
+        <script src="js/index.js"></script>
         <%@include  file="forms/loginform.html" %>
     </head>
-    <body>
+    <body onload="javascript:loadContent()">
         <header>
             <nav class="navbar navbar-toggleable-md navbar-inverse bg-inverse navbar-dark bg-dark navbar-right">
                 <div class="container-fluid">

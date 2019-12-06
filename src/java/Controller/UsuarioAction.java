@@ -32,16 +32,28 @@ public class UsuarioAction implements Action {
 
         switch (arrayAction[1]) {
             case "REGISTER":
+                System.out.println("TRACE: " + "REGISTER");
                 results = register(request, response);
                 break;
             case "LOGIN":
+                System.out.println("TRACE: " + "LOGIN");
                 results = login(request, response);
                 break;
             case "LOADALL":
+                System.out.println("TRACE: " + "LOADALL");
                 results = loadAll(request, response);
                 break;
             case "CHANGESALDO":
+                System.out.println("TRACE: " + "CHANGESALDO");
                 results = changesaldo(request, response);
+                break;
+            case "FIND":
+                System.out.println("TRACE: " + "FIND");
+                results = find(request, response);
+                break;
+            case "EDIT":
+                System.out.println("TRACE: " + "EDIT");
+                results = edit(request, response);
                 break;
         }
 
@@ -75,6 +87,8 @@ public class UsuarioAction implements Action {
         usuario.setTelefono(request.getParameter("TELEFONO"));
         usuario.setIDGrupoUsuarioFK(grupo);
         
+        System.out.println(usuario);
+        
         Map<String, String> res = usuarioDAO.insertarUsuario(usuario);
 
         return Util.toJson(res);
@@ -100,6 +114,38 @@ public class UsuarioAction implements Action {
         recarga.setIDUsuarioFK(usuario);
         
         Map<String, String> res = usuarioDAO.changeSaldo(recarga);
+
+        return Util.toJson(res);
+    }
+
+    private String find(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+
+        Usuarios usuario = new Usuarios();
+        usuario.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIO")));
+        
+        Map<String, String> res = usuarioDAO.find(usuario);
+
+        return Util.toJson(res);
+    }
+
+    private String edit(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+        
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setIDGrupoUsuarios(Integer.parseInt(request.getParameter("GRUPOFK")));
+
+        Usuarios usuario = new Usuarios();
+        usuario.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIO")));
+        usuario.setNombre(request.getParameter("NOMBRE"));
+        usuario.setApellido(request.getParameter("APELLIDO"));
+        usuario.setApodo(request.getParameter("APODO"));
+        usuario.setPassword(request.getParameter("PASSWORD"));
+        usuario.setEmail(request.getParameter("EMAIL"));
+        usuario.setTelefono(request.getParameter("TELEFONO"));
+        usuario.setIDGrupoUsuarioFK(grupo);
+        
+        Map<String, String> res = usuarioDAO.editarUsuario(usuario);
 
         return Util.toJson(res);
     }
