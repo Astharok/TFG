@@ -1,11 +1,11 @@
-<div id="main-login-form" class="login-form hidden" onclick="loginFormToogleShow();">
-    <form class="login-form" action="/examples/actions/confirmation.php" method="post" onclick="window.event.stopPropagation();">
+<div id="main-login-form" class="login-form hidden" onclick="formToogleShow('main-login-form');">
+    <form class="login-form" method="get" action="javascript:login();" onclick="window.event.stopPropagation();">
         <h2 class="text-center">Log in</h2>       
         <div class="form-group">
-            <input type="text" class="form-control" placeholder="Username" required="required">
+            <input id = "userName" type="text" class="form-control" placeholder="Username" required="required">
         </div>
         <div class="form-group">
-            <input type="password" class="form-control" placeholder="Password" required="required">
+            <input id = "password" type="password" class="form-control" placeholder="Password" required="required">
         </div>
         <div class="form-group">
             <button type="submit" class="btn btn-primary btn-block">Log in</button>

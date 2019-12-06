@@ -1,0 +1,25 @@
+<head>
+    <link rel="stylesheet" href="css/chatform.css">
+</head>
+<div id="main-chat-form" class="chat-form hidden" onclick="formToogleShow('main-chat-form');">
+    <form class="chat-form" method="get" action="javascript:sendChat();" onclick="window.event.stopPropagation();">
+        <h2 id = "chatUserTitle" class="text-center">Chat</h2>
+        <div class="form-group">
+            <input id = "idConversacion" type="hidden" class="form-control" value="0">
+        </div>
+        <div class="form-group">
+            <input id = "idUsuarioChat" type="hidden" class="form-control" value="0">
+        </div>
+        <div class="form-group">
+            <label for="comment">Historial</label>
+            <textarea disabled class="form-control" rows="5" id="historialChat"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="mensaje">Mensaje</label>
+            <input id = "mensaje" type="text" class="form-control">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+        </div>
+    </form>
+</div>
