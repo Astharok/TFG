@@ -1,19 +1,25 @@
 function loadContent() {
     checkSession();
     document.getElementById("defaultOpen").click();
-    window.setInterval(loadEquipos, 1000);
+    document.getElementById("userTitle").innerHTML = 'Bienvenido ' + getCookie('NOMBRE') + ' ' + getCookie('APELLIDO');
+    window.setInterval(loadData, 1000);
 }
 
 function checkSession() {
     var sessionId = getCookie('SESSION_ID');
     var groupName = getCookie('GROUP_NAME');
-    if(sessionId !== ''){
-        if(groupName === 'Clientes'){
-            window.location.href = "client.jsp";
+    if (sessionId !== '') {
+        if (groupName === 'Administradores') {
+            window.location.href = "administration.jsp";
         }
-    }else{
+    } else {
         window.location.href = "index.jsp";
     }
+}
+
+function loadData() {
+    loadEquipos();
+    comprobarSaldo(getCookie("ID_USUARIO"));
 }
 
 function openTab(evt, tabName) {
@@ -31,7 +37,7 @@ function openTab(evt, tabName) {
     for (i = 0; i < tablinks.length; i++) {
         tablinks[i].className = tablinks[i].className.replace(" active", "");
     }
-    
+
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";

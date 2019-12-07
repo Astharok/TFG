@@ -7,9 +7,7 @@ package Controller;
 
 import DAOFactory.DAOFactory;
 import Interfaces.SesionDAO;
-import Interfaces.UsuarioDAO;
 import beans.Sesiones;
-import beans.Usuarios;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;

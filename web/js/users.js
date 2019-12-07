@@ -1,3 +1,38 @@
+function login() {
+    var apodo = $('#userName').val();
+    var password = hashcode($('#password').val());
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.LOGIN',
+            APODO: apodo,
+            PASSWORD: password
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if (responseText.STATE === "SUCCESS") {
+                var user = $.parseJSON(responseText.LOGUED_USER);
+                setCookie("ID_USUARIO", user.iDUsuario, 1);
+                setCookie("NOMBRE", user.nombre, 1);
+                setCookie("APELLIDO", user.apellido, 1);
+                setCookie("APODO", user.apodo, 1);
+                setCookie("EMAIL", user.email, 1);
+                setCookie("TELEFONO", user.telefono, 1);
+                setCookie("SALDO", user.saldo, 1);
+                setCookie("GROUP_NAME", user.iDGrupoUsuarioFK.nombre, 1);
+                setCookie("SESSION_ID", responseText.SESSION_ID, 1);
+                if (user.iDGrupoUsuarioFK.nombre === "Administradores") {
+                    window.location.href = "administration.jsp";
+                } else if (user.iDGrupoUsuarioFK.nombre === "Clientes") {
+                    window.location.href = "client.jsp";
+                }
+            } else {
+                alert(responseText.STATE + ": " + responseText.MESSAGE);
+            }
+        }
+    });
+}
+
 function disconnect() {
     deleteAllCookies();
     window.location.href = "index.jsp";
@@ -165,6 +200,47 @@ function editUser() {
                         formToogleShow('main-edit-user-form');
                     }
                 });
+            }
+            if (responseText.STATE === "FAILURE") {
+                alert(responseText.STATE + ": " + responseText.MESSAGE);
+            }
+        }
+    });
+}
+
+function comprobarSaldo(idusuariosaldo) {
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.FIND',
+            IDUSUARIO: idusuariosaldo
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if (responseText.STATE === "SUCCESS") {
+                var user = $.parseJSON(responseText.USUARIO);
+                var saldo = user.saldo;
+                var equipoActivo = document.getElementById("equipoActivo");
+                var horaini = equipoActivo.cells.namedItem("horaini");
+                var segundos = 0;
+                var counterIni = 0;
+                var counterActual = 0;
+                var momentoActual = new Date();
+                var horaIniArray = horaini.innerHTML.split(':');
+                counterIni += parseInt(horaIniArray[0]) * 3600;
+                counterIni += parseInt(horaIniArray[1]) * 60;
+                counterIni += parseInt(horaIniArray[2]);
+                counterActual += momentoActual.getHours() * 3600;
+                counterActual += momentoActual.getMinutes() * 60;
+                counterActual += momentoActual.getSeconds();
+                segundos = counterActual - counterIni;
+                var precioHora = user.iDGrupoUsuarioFK.iDTarifaFK.precioporhora;
+                var precioSegundo = precioHora / 3600;
+                saldo = saldo - segundos * precioSegundo;
+                document.getElementById("saldoMainView").innerHTML = 'Tu saldo actual es de ' + Math.round(saldo*100)/100 + ' €';
+                if(saldo <= 0){
+                    desactivarEquipo(null);
+                }
             }
             if (responseText.STATE === "FAILURE") {
                 alert(responseText.STATE + ": " + responseText.MESSAGE);

@@ -21,7 +21,7 @@ function getSessionUserForConversacion(idUserReceptor, receptorNombre) {
         url: '/TFG_Web/ControllerTFG',
         data: {
             ACTION: 'Sesion.FIND',
-            SESSIONID: getCookie("sessionid")
+            SESSIONID: getCookie("SESSION_ID")
         },
         dataType: 'json',
         success: function (responseText) {
