@@ -34,8 +34,6 @@ public class ControllerTFG extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("TRACE: " + "NUEVA CONSULTA -------------------------------------------------------");
-        System.out.println("TRACE: " + "Controller");
         response.setContentType("text/plain;charset=UTF-8");
         PrintWriter out;
         String results = "";
@@ -47,52 +45,41 @@ public class ControllerTFG extends HttpServlet {
             switch (arrayAction[0]) {
 
                 case "Usuario":
-                    System.out.println("TRACE: " + "Usuario");
                     results = new UsuarioAction().execute(request, response);
                     break;
                 case "Equipo":
-                    System.out.println("TRACE: " + "Equipo");
                     results = new EquipoAction().execute(request, response);
                     break;
                 case "Grupo":
-                    System.out.println("TRACE: " + "Grupo");
                     results = new GrupoAction().execute(request, response);
                     break;
                 case "Mensaje":
-                    System.out.println("TRACE: " + "Mensaje");
                     results = new MensajeAction().execute(request, response);
                     break;
                 case "Conversacion":
-                    System.out.println("TRACE: " + "Conversacion");
                     results = new ConversacionAction().execute(request, response);
                     break;
                 case "Sesion":
-                    System.out.println("TRACE: " + "Sesion");
                     results = new SesionAction().execute(request, response);
                     break;
                     
                 default:
             }
             
-            if(results == null || results == ""){
+            if(results == null || results.equals("")){
                 results = generateFailRequest();
             }
             
             out.print(results);
             
-            Util.showResults(Util.fromJson(results));
-            
-            System.out.println("TRACE: " + "FIN CONSULTA -------------------------------------------------------");
+            //Util.showResults(Util.fromJson(results));
             
             response.setStatus(HttpServletResponse.SC_OK);
             
         } catch (IOException ex) {
             results = "CONTROLLER_FAILURE: Fallo en processRequest";
             results += "/n" + "DETALLE: Error al obtener el Writer del HttpServletResponse";
-            results += "/n" + ex.getCause();
             results += "/n" + ex.getMessage();
-            
-            System.err.println(results);
         }
         
         //request.setAttribute("mensaje", mensaje); //Se envía el mensaje a resultadoOperacion.jsp
@@ -107,7 +94,7 @@ public class ControllerTFG extends HttpServlet {
     }
     
     private String generateFailRequest () {
-        Map<String, String> resFail = new HashMap<String, String>();
+        Map<String, String> resFail = new HashMap<>();
         resFail.put("STATE", "FAILURE");
         resFail.put("MESSAGE", "Funcion requerida no implementada");
         return Util.toJson(resFail);

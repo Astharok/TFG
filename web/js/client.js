@@ -2,7 +2,17 @@ function loadContent() {
     checkSession();
     document.getElementById("defaultOpen").click();
     document.getElementById("userTitle").innerHTML = 'Bienvenido ' + getCookie('NOMBRE') + ' ' + getCookie('APELLIDO');
-    window.setInterval(loadData, 1000);
+    window.setInterval(loadData, 2000);
+}
+
+function loadData() {
+    if(getCookie("EQUIPOSVIEW")){
+        loadEquipos();
+    }
+    if(getCookie("CHATVIEW")){
+        getMensajesChat(getCookie('IDCONVERSACION'), getCookie('IDUSEREMISOR'), getCookie('IDUSERRECEPTOR'), getCookie('RECEPTORNOMBRE'));
+    }
+    comprobarSaldo(getCookie("ID_USUARIO"));
 }
 
 function checkSession() {
@@ -15,11 +25,6 @@ function checkSession() {
     } else {
         window.location.href = "index.jsp";
     }
-}
-
-function loadData() {
-    loadEquipos();
-    comprobarSaldo(getCookie("ID_USUARIO"));
 }
 
 function openTab(evt, tabName) {
@@ -44,10 +49,14 @@ function openTab(evt, tabName) {
 
     switch (tabName) {
         case "Equipos":
+            setCookie("EQUIPOSVIEW", true, 1);
+            setCookie("ADMINSVIEW", false, 1);
             loadEquipos();
             break;
-        case "Usuarios":
-            loadUsers();
+        case "Mensajes":
+            setCookie("ADMINSVIEW", true, 1);
+            setCookie("EQUIPOSVIEW", false, 1);
+            loadAdmins();
             break;
 
     }
@@ -62,6 +71,14 @@ function formToogleShow(formName, value) {
     }
     if (formName === 'main-chat-form' && value !== null) {
         getUserForChat(value);
+        setCookie("EQUIPOSVIEW", false, 1);
+        setCookie("ADMINSVIEW", false, 1);
+        setCookie("CHATVIEW", true, 1);
+    }
+    if (formName === 'main-chat-form' && value === null) {
+        setCookie("EQUIPOSVIEW", false, 1);
+        setCookie("ADMINSVIEW", true, 1);
+        setCookie("CHATVIEW", false, 1);
     }
     var docClasses = document.getElementById(formName).classList;
     if (docClasses.contains('hidden')) {

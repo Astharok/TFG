@@ -32,11 +32,9 @@ public class MensajeAction implements Action {
 
         switch (arrayAction[1]) {
             case "INSERT":
-                System.out.println("TRACE: " + "INSERT");
                 results = insert(request, response);
                 break;
             case "FINDBYCONVER":
-                System.out.println("TRACE: " + "FINDBYCONVER");
                 results = findByConversacion(request, response);
                 break;
         }

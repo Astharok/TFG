@@ -32,15 +32,12 @@ public class EquipoAction implements Action {
 
         switch (arrayAction[1]) {
             case "LOADALL":
-                System.out.println("TRACE: " + "LOADALL");
                 results = loadAll(request, response);
                 break;
             case "ACTIVAR":
-                System.out.println("TRACE: " + "ACTIVAR");
                 results = activar(request, response);
                 break;
             case "DESACTIVAR":
-                System.out.println("TRACE: " + "DESACTIVAR");
                 results = desactivar(request, response);
                 break;
         }

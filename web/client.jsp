@@ -86,9 +86,6 @@
 
             <div id="Mensajes" class="tabcontent" >
                 <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="usersMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Menú
-                    </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
                         <button class="dropdown-item" type="button" onclick="formToogleShow('main-register-form');">Crear usuario</button>
                         <button class="dropdown-item" type="button">Crear alerta</button>
@@ -101,9 +98,6 @@
                             <th scope="col">Apodo</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellidos</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Teléfono</th>
-                            <th scope="col">Saldo</th>
                             <th scope="col">Acciones</th>
                         </tr>
                     </thead>

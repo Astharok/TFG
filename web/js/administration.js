@@ -1,7 +1,12 @@
 function loadContent() {
     checkSession();
     document.getElementById("defaultOpen").click();
-    window.setInterval(loadEquipos, 1000);
+    window.setInterval(loadData, 1000);
+}
+
+function loadData() {
+    loadEquipos();
+    loadUsers();
 }
 
 function checkSession() {

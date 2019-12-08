@@ -221,22 +221,24 @@ function comprobarSaldo(idusuariosaldo) {
                 var user = $.parseJSON(responseText.USUARIO);
                 var saldo = user.saldo;
                 var equipoActivo = document.getElementById("equipoActivo");
-                var horaini = equipoActivo.cells.namedItem("horaini");
-                var segundos = 0;
-                var counterIni = 0;
-                var counterActual = 0;
-                var momentoActual = new Date();
-                var horaIniArray = horaini.innerHTML.split(':');
-                counterIni += parseInt(horaIniArray[0]) * 3600;
-                counterIni += parseInt(horaIniArray[1]) * 60;
-                counterIni += parseInt(horaIniArray[2]);
-                counterActual += momentoActual.getHours() * 3600;
-                counterActual += momentoActual.getMinutes() * 60;
-                counterActual += momentoActual.getSeconds();
-                segundos = counterActual - counterIni;
-                var precioHora = user.iDGrupoUsuarioFK.iDTarifaFK.precioporhora;
-                var precioSegundo = precioHora / 3600;
-                saldo = saldo - segundos * precioSegundo;
+                if(equipoActivo !== null){
+                    var horaini = equipoActivo.cells.namedItem("horaini");
+                    var segundos = 0;
+                    var counterIni = 0;
+                    var counterActual = 0;
+                    var momentoActual = new Date();
+                    var horaIniArray = horaini.innerHTML.split(':');
+                    counterIni += parseInt(horaIniArray[0]) * 3600;
+                    counterIni += parseInt(horaIniArray[1]) * 60;
+                    counterIni += parseInt(horaIniArray[2]);
+                    counterActual += momentoActual.getHours() * 3600;
+                    counterActual += momentoActual.getMinutes() * 60;
+                    counterActual += momentoActual.getSeconds();
+                    segundos = counterActual - counterIni;
+                    var precioHora = user.iDGrupoUsuarioFK.iDTarifaFK.precioporhora;
+                    var precioSegundo = precioHora / 3600;
+                    saldo = saldo - segundos * precioSegundo;
+                }
                 document.getElementById("saldoMainView").innerHTML = 'Tu saldo actual es de ' + Math.round(saldo*100)/100 + ' €';
                 if(saldo <= 0){
                     desactivarEquipo(null);
@@ -270,6 +272,39 @@ function changeSaldo() {
             if (responseText.STATE === "SUCCESS") {
                 loadUsers();
                 formToogleShow('main-saldo-form');
+            }
+            if (responseText.STATE === "FAILURE") {
+                alert(responseText.STATE + ": " + responseText.MESSAGE);
+            }
+        }
+    });
+}
+
+function loadAdmins() {
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.LOADALL'
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if (responseText.STATE === "SUCCESS") {
+                var myArr = $.parseJSON(responseText.USUARIOS);
+                var i;
+                var html = "";
+                for (i = 0; i < myArr.length; i++) {
+                    html += ""
+                            + "<tr>"
+                            + "<th scope=\"row\">" + myArr[i].iDUsuario + "</th>"
+                            + "<td>" + myArr[i].apodo + "</td>"
+                            + "<td>" + myArr[i].nombre + "</td>"
+                            + "<td>" + myArr[i].apellido + "</td>"
+                            + "<td>"
+                            + "<button onclick=\"formToogleShow('main-chat-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-info btn-sm\">Mensaje</button>"
+                            + "</td>"
+                            + "</tr>";
+                }
+                document.getElementById("UsuariosRows").innerHTML = html;
             }
             if (responseText.STATE === "FAILURE") {
                 alert(responseText.STATE + ": " + responseText.MESSAGE);

@@ -30,7 +30,6 @@ public class SesionAction implements Action {
 
         switch (arrayAction[1]) {
             case "FIND":
-                System.out.println("TRACE: " + "FIND");
                 results = find(request, response);
                 break;
         }
