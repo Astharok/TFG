@@ -32,27 +32,21 @@ public class UsuarioAction implements Action {
 
         switch (arrayAction[1]) {
             case "REGISTER":
-                System.out.println("TRACE: " + "REGISTER");
                 results = register(request, response);
                 break;
             case "LOGIN":
-                System.out.println("TRACE: " + "LOGIN");
                 results = login(request, response);
                 break;
             case "LOADALL":
-                System.out.println("TRACE: " + "LOADALL");
                 results = loadAll(request, response);
                 break;
             case "CHANGESALDO":
-                System.out.println("TRACE: " + "CHANGESALDO");
                 results = changesaldo(request, response);
                 break;
             case "FIND":
-                System.out.println("TRACE: " + "FIND");
                 results = find(request, response);
                 break;
             case "EDIT":
-                System.out.println("TRACE: " + "EDIT");
                 results = edit(request, response);
                 break;
         }

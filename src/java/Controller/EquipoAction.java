@@ -7,6 +7,9 @@ package Controller;
 
 import DAOFactory.DAOFactory;
 import Interfaces.EquipoDAO;
+import beans.Equipos;
+import beans.HistorialesEquipos;
+import beans.Usuarios;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -29,8 +32,13 @@ public class EquipoAction implements Action {
 
         switch (arrayAction[1]) {
             case "LOADALL":
-                System.out.println("TRACE: " + "LOADALL");
                 results = loadAll(request, response);
+                break;
+            case "ACTIVAR":
+                results = activar(request, response);
+                break;
+            case "DESACTIVAR":
+                results = desactivar(request, response);
                 break;
         }
 
@@ -41,6 +49,31 @@ public class EquipoAction implements Action {
         EquipoDAO equipoDAO = bd.getEquipoDAO();
         
         Map<String, String> res = equipoDAO.loadAll();
+
+        return Util.toJson(res);
+    }
+    
+    private String activar(HttpServletRequest request, HttpServletResponse response) {
+        EquipoDAO equipoDAO = bd.getEquipoDAO();
+        
+        Equipos equipo = new Equipos();
+        equipo.setIDEquipo(Integer.valueOf(request.getParameter("EQUIPOID")));
+        
+        Usuarios usuario = new Usuarios();
+        usuario.setIDUsuario(Integer.valueOf(request.getParameter("USUARIOID")));
+        
+        Map<String, String> res = equipoDAO.activar(equipo, usuario);
+
+        return Util.toJson(res);
+    }
+    
+    private String desactivar(HttpServletRequest request, HttpServletResponse response) {
+        EquipoDAO equipoDAO = bd.getEquipoDAO();
+        
+        HistorialesEquipos historial = new HistorialesEquipos();
+        historial.setIDHistorialEquipo(Integer.valueOf(request.getParameter("HISTORIALID")));
+        
+        Map<String, String> res = equipoDAO.desactivar(historial);
 
         return Util.toJson(res);
     }

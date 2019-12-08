@@ -1,7 +1,13 @@
 function loadContent() {
-    var sessionId = getCookie('sessionid');
+    var sessionId = getCookie('SESSION_ID');
+    var groupName = getCookie('GROUP_NAME');
     if(sessionId !== ''){
-        window.location.href = "administration.jsp";
+        if(groupName === 'Administradores'){
+            window.location.href = "administration.jsp";
+        }
+        if(groupName === 'Clientes'){
+            window.location.href = "client.jsp";
+        }
     }
 }
 
@@ -15,30 +21,4 @@ function formToogleShow(formName, value) {
         docClasses.replace('visible', 'hidden');
         return;
     }
-}
-
-function login() {
-    var apodo = $('#userName').val();
-    var password = hashcode($('#password').val());
-    $.ajax({
-        url: '/TFG_Web/ControllerTFG',
-        data: {
-            ACTION: 'Usuario.LOGIN',
-            APODO: apodo,
-            PASSWORD: password
-        },
-        dataType: 'json',
-        success: function (responseText) {
-            if (responseText.STATE === "SUCCESS") {
-                setCookie("sessionid", responseText.SESSION_ID, 1);
-                if (responseText.GROUP_NAME === "Administradores") {
-                    window.location.href = "administration.jsp";
-                } else {
-                    alert(responseText.STATE + ": " + responseText.MESSAGE);
-                }
-            } else {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
-            }
-        }
-    });
 }

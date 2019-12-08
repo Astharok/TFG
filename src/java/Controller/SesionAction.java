@@ -7,9 +7,7 @@ package Controller;
 
 import DAOFactory.DAOFactory;
 import Interfaces.SesionDAO;
-import Interfaces.UsuarioDAO;
 import beans.Sesiones;
-import beans.Usuarios;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,6 @@ public class SesionAction implements Action {
 
         switch (arrayAction[1]) {
             case "FIND":
-                System.out.println("TRACE: " + "FIND");
                 results = find(request, response);
                 break;
         }

@@ -10,7 +10,8 @@ function getUserForChat(idUserReceptor) {
             if (responseText.STATE === "SUCCESS") {
                 var user = $.parseJSON(responseText.USUARIO);
                 document.getElementById("chatUserTitle").innerHTML = 'Chat con ' + user.nombre;
-                getSessionUserForConversacion(idUserReceptor, user.nombre);
+                //getSessionUserForConversacion(idUserReceptor, user.nombre);
+                getConversacion(idUserReceptor, getCookie("ID_USUARIO"), user.nombre);
             }
         }
     });
@@ -21,7 +22,7 @@ function getSessionUserForConversacion(idUserReceptor, receptorNombre) {
         url: '/TFG_Web/ControllerTFG',
         data: {
             ACTION: 'Sesion.FIND',
-            SESSIONID: getCookie("sessionid")
+            SESSIONID: getCookie("SESSION_ID")
         },
         dataType: 'json',
         success: function (responseText) {
@@ -45,13 +46,20 @@ function getConversacion(idUserReceptor, idUserEmisor, receptorNombre) {
             if (responseText.STATE === "SUCCESS") {
                 document.getElementById("idConversacion").value = responseText.CONVERSACION_ID;
                 document.getElementById("idUsuarioChat").value = idUserEmisor;
-                getMensajesChat(responseText.CONVERSACION_ID, idUserReceptor, idUserEmisor, receptorNombre);
+                setCookie('IDCONVERSACION', responseText.CONVERSACION_ID, 1);
+                setCookie('IDUSERRECEPTOR', idUserReceptor, 1);
+                setCookie('IDUSEREMISOR', idUserEmisor, 1);
+                setCookie('RECEPTORNOMBRE', receptorNombre, 1);
+                getMensajesChat();
             }
         }
     });
 }
 
-function getMensajesChat(idConversacion, idUserReceptor, idUserEmisor, receptorNombre) {
+function getMensajesChat() {
+    var idConversacion = getCookie('IDCONVERSACION');
+    var idUserReceptor = getCookie('IDUSERRECEPTOR');
+    var receptorNombre = getCookie('RECEPTORNOMBRE');
     $.ajax({
         url: '/TFG_Web/ControllerTFG',
         data: {
@@ -61,10 +69,6 @@ function getMensajesChat(idConversacion, idUserReceptor, idUserEmisor, receptorN
         dataType: 'json',
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
-                setCookie('IDCONVERSACION', idConversacion, 1);
-                setCookie('IDUSEREMISOR', idUserReceptor, 1);
-                setCookie('IDUSERRECEPTOR', idUserEmisor, 1);
-                setCookie('RECEPTORNOMBRE', receptorNombre, 1);
                 var arrayMensajes = $.parseJSON(responseText.HISTORIAL_CHAT);
                 var i;
                 var html = '';
@@ -95,7 +99,7 @@ function getMensajesChat(idConversacion, idUserReceptor, idUserEmisor, receptorN
                         var hora = fechaArray[3];
                         html += '\n';
                         html += hora + ' - ';
-                        if (arrayMensajes[i].iDUsuarioFK.iDUsuario === idUserReceptor) {
+                        if (arrayMensajes[i].iDUsuarioFK.iDUsuario === parseInt(idUserReceptor)) {
                             html += receptorNombre + ':';
                         } else {
                             html += 'Yo:';

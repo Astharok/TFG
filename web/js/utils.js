@@ -2,12 +2,13 @@ function setCookie(cname, cvalue, exdays) {
     var d = new Date();
     d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
     var expires = "expires=" + d.toUTCString();
-    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    document.cookie = cname + "=" + encodeURIComponent(cvalue) + ";" + expires + ";path=/";
 }
 
 function getCookie(cname) {
     var name = cname + "=";
-    var ca = document.cookie.split(';');
+    var cookies = decodeURIComponent(document.cookie);
+    var ca = cookies.split(';');
     for (var i = 0; i < ca.length; i++) {
         var c = ca[i];
         while (c.charAt(0) === ' ') {
@@ -53,3 +54,17 @@ function hashcode(toHash) {
   }
   return hash;
 };
+
+function getHora24H(fecha){
+    var arrayFecha = fecha.split(' ');
+    var time = arrayFecha[3];
+    if(arrayFecha[4] === 'PM'){
+        var timeArray = time.split(':');
+        var hora = parseInt(timeArray[0]);
+        var minuto = parseInt(timeArray[1]);
+        var segundo = parseInt(timeArray[2]);
+        hora = hora + 12;
+        time = hora + ':' + minuto + ':' + segundo;
+    }
+    return time;
+}

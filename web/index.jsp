@@ -19,6 +19,7 @@
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/utils.js"></script>
         <script src="js/index.js"></script>
+        <script src="js/users.js"></script>
         <%@include  file="forms/loginform.html" %>
     </head>
     <body onload="javascript:loadContent()">
