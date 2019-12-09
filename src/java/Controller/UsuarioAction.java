@@ -127,7 +127,10 @@ public class UsuarioAction implements Action {
         UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
         
         GruposUsuarios grupo = new GruposUsuarios();
-        grupo.setIDGrupoUsuarios(Integer.parseInt(request.getParameter("GRUPOFK")));
+        
+        if(request.getParameter("GRUPOFK") != null){
+            grupo.setIDGrupoUsuarios(Integer.parseInt(request.getParameter("GRUPOFK")));
+        }
 
         Usuarios usuario = new Usuarios();
         usuario.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIO")));

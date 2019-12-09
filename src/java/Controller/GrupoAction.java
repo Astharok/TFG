@@ -8,6 +8,7 @@ package Controller;
 import DAOFactory.DAOFactory;
 import Interfaces.GrupoDAO;
 import beans.GruposUsuarios;
+import beans.Tarifas;
 import interfaces.Action;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -32,6 +33,12 @@ public class GrupoAction implements Action {
             case "FIND":
                 results = find(request, response);
                 break;
+            case "FINDALL":
+                results = findall(request, response);
+                break;
+            case "UPDATETARIFA":
+                results = updateTarifa(request, response);
+                break;
         }
 
         return results;
@@ -44,6 +51,28 @@ public class GrupoAction implements Action {
         grupo.setNombre(request.getParameter("GRUPO"));
         
         Map<String, String> res = grupoDAO.find(grupo);
+
+        return Util.toJson(res);
+    }
+
+    private String findall(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Map<String, String> res = grupoDAO.findall();
+
+        return Util.toJson(res);
+    }
+
+    private String updateTarifa(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setIDGrupoUsuarios(Integer.valueOf(request.getParameter("IDGRUPO")));
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
+        
+        Map<String, String> res = grupoDAO.updateTarifa(grupo, tarifa);
 
         return Util.toJson(res);
     }

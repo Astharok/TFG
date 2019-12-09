@@ -1,0 +1,41 @@
+<head>
+    <link rel="stylesheet" href="css/edituserownform.css">
+</head>
+<form class="edit-user-own-form" method="get" action="javascript:editOwnUser();">
+    <div class="form-group">
+        <input id = "idUsuarioEdit" type="hidden" class="form-control">
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="userNameEdit">Apodo</label>
+            <input id = "userNameEdit" type="text" class="form-control" placeholder="Apodo" required="required">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="passwordEdit">Password</label>
+            <input id = "passwordEdit" type="password" class="form-control" placeholder="Password">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="nameEdit">Nombre</label>
+            <input id = "nameEdit" type="text" class="form-control" placeholder="Nombre" required="required">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="surnameEdit">Apellidos</label>
+            <input id = "surnameEdit" type="text" class="form-control" placeholder="Apellidos" required="required">
+        </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label for="emailEdit">Email</label>
+            <input id = "emailEdit" type="text" class="form-control" placeholder="Email" required="required">
+        </div>
+        <div class="form-group col-md-6">
+            <label for="phoneEdit">Telefono</label>
+            <input id = "phoneEdit" type="text" class="form-control" placeholder="Telefono" required="required">
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block">Editar</button>
+    </div>
+</form>

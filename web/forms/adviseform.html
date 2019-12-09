@@ -1,0 +1,22 @@
+<head>
+    <link rel="stylesheet" href="css/adviseform.css">
+</head>
+<div id="main-advise-form" class="advise-form hidden" onclick="formToogleShow('main-advise-form', null);">
+    <form class="advise-form" method="get" action="javascript:sendAdvise();" onclick="window.event.stopPropagation();">
+        <h2 class="text-center">Nuevo aviso</h2>
+        <div class="form-group">
+            <label for="tituloAviso">Tirulo</label>
+            <input id = "tituloAviso" type="text" class="form-control" placeholder="Titulo" required="required">
+        </div>
+        <div class="form-group">
+            <label for="textoAviso">Texto de aviso</label>
+            <textarea class="form-control" rows="5" id="textoAviso"></textarea>
+        </div>
+        <label for="checkboxes">Grupos destinatarios</label>
+        <div class="form-group" id="checkboxes">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Enviar</button>
+        </div>
+    </form>
+</div>

@@ -89,3 +89,26 @@ thead, tbody tr {
 .use{
     background-color: palegreen;
 }
+
+.saldo-card{
+    height: 18vh;
+    max-height: 18vh;
+    padding: 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.aviso-card{
+    height: 18vh;
+    max-height: 18vh;
+    padding: 1.25rem;
+    border-radius: 0.25rem;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+}
+
+.avisos-cards{
+    display: block;
+    height: 18vh;
+    max-height: 18vh;
+    overflow-y: scroll;
+}

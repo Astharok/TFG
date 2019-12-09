@@ -12,12 +12,14 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+        <link rel="stylesheet" href="css/toasts.css">
         <link rel="stylesheet" href="css/index.css">
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/jquery-3.3.1.min.js"></script>
         <script src="js/utils.js"></script>
+        <script src="js/toasts.js"></script>
         <script src="js/index.js"></script>
         <script src="js/users.js"></script>
         <%@include  file="forms/loginform.html" %>
@@ -35,7 +37,7 @@
                 </div>
             </nav>
         </header>
-
+        <div id="mainToast" class="cutomToast"></div>
         <div class="container-fluid bg-light ">
             <div class="page-header">
                 <img src="images/Logo_GZ.png" class="img-fluid rounded mx-auto d-block logoMain" alt="Responsive image">

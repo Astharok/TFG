@@ -12,15 +12,18 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.css">
+        <link rel="stylesheet" href="css/toasts.css">
         <link rel="stylesheet" href="css/client.css">
         <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
         <script src="js/utils.js"></script>
+        <script src="js/toasts.js"></script>
         <script src="js/client.js"></script>
         <script src="js/equipos.js"></script>
         <script src="js/users.js"></script>
         <script src="js/chat.js"></script>
+        <script src="js/advises.js"></script>
         <%@include  file="forms/chatform.html" %>
     </head>
     <body onload="javascript:loadContent()">
@@ -36,27 +39,23 @@
                 </div>
             </nav>
         </header>
+        <div id="mainToast" class="cutomToast"></div>
         <div class="container-fluid">
             <h5 id="userTitle" class="card-header">Bienvenido Usuario</h5>
         </div>
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-6">
-                    <div class="card">
+                    <div class="card saldo-card">
                         <div class="card-body">
                             <h5 class="card-title">Saldo actual</h5>
-                            <p id="saldoMainView" class="card-text">Tu saldo actual es de XX.XX €</p>
-                            <a href="#" onclick="test()" class="btn btn-primary">Recargar</a>
+                            <p id="saldoMainView" class="card-text">Tu saldo actual es de 0 €</p>
+                            <p id="tarifaMainView" class="card-text">Tu tarifa actual es: 0€/hora</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-sm-6">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5 class="card-title">Avisos</h5>
-                            <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
+                    <div id="avisosCards" class="card avisos-cards">
                     </div>
                 </div>
             </div>
@@ -107,8 +106,7 @@
             </div>
 
             <div id="Datos de usuario" class="tabcontent">
-                <h3>Tokyo</h3>
-                <p>Tokyo is the capital of Japan.</p>
+                <%@include  file="forms/edituserownform.html" %>
             </div>
         </div>
     </body>

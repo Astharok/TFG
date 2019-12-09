@@ -47,12 +47,11 @@ function loadEquipos() {
                             htmlidequipo += " class=\"busy\"";
                         } else {
                             htmlaccion += " onclick=\"\" "
-                                    + " type=\"button\" class=\"btn btn-primary btn-sm\">Activar</button>";
+                                    + " type=\"button\" class=\"btn btn-primary btn-sm\" disabled>Activar</button>";
                             htmlstatus = "Disponible"
                             htmlidequipo += " class=\"free\"";
                         }
-                    }
-                    if (getCookie('GROUP_NAME') === 'Clientes') {
+                    }else{
                         if (equipos[i].historialesEquiposCollection[0].iDHistorialEquipo !== 0 && parseInt(getCookie("ID_USUARIO")) === equipos[i].historialesEquiposCollection[0].iDUsuarioFK.iDUsuario) {
                             htmlaccion += " onclick=\"desactivarEquipo(null)\" "
                                     + " type=\"button\" class=\"btn btn-primary btn-sm\">Desactivar</button>";
@@ -96,7 +95,7 @@ function loadEquipos() {
                 initContadores();
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
@@ -119,7 +118,7 @@ function activarEquipo(idEquipo, idusuariosaldo) {
                     var user = $.parseJSON(responseText.USUARIO);
                     document.getElementById("saldoMainView").innerHTML = 'Tu saldo actual es de ' + user.saldo + ' €';
                     if (user.saldo <= 0) {
-                        desactivarEquipo();
+                        toast("mainToast", "No tienes suficiente saldo para activar un equipo");
                     } else {
                         $.ajax({
                             url: '/TFG_Web/ControllerTFG',
@@ -131,17 +130,18 @@ function activarEquipo(idEquipo, idusuariosaldo) {
                             dataType: 'json',
                             success: function (responseText) {
                                 if (responseText.STATE === "SUCCESS") {
+                                    toast("mainToast", "Equipo activado");
                                     loadEquipos();
                                 }
                                 if (responseText.STATE === "FAILURE") {
-                                    alert(responseText.STATE + ": " + responseText.MESSAGE);
+                                    toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
                                 }
                             }
                         });
                     }
                 }
                 if (responseText.STATE === "FAILURE") {
-                    alert(responseText.STATE + ": " + responseText.MESSAGE);
+                    toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
                 }
             }
         });
@@ -165,10 +165,11 @@ function desactivarEquipo(idHistorialEquipo) {
             dataType: 'json',
             success: function (responseText) {
                 if (responseText.STATE === "SUCCESS") {
+                    toast("mainToast", "Equipo desactivado");
                     loadEquipos();
                 }
                 if (responseText.STATE === "FAILURE") {
-                    alert(responseText.STATE + ": " + responseText.MESSAGE);
+                    toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
                 }
             }
         });

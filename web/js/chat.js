@@ -10,7 +10,6 @@ function getUserForChat(idUserReceptor) {
             if (responseText.STATE === "SUCCESS") {
                 var user = $.parseJSON(responseText.USUARIO);
                 document.getElementById("chatUserTitle").innerHTML = 'Chat con ' + user.nombre;
-                //getSessionUserForConversacion(idUserReceptor, user.nombre);
                 getConversacion(idUserReceptor, getCookie("ID_USUARIO"), user.nombre);
             }
         }
@@ -68,7 +67,7 @@ function getMensajesChat() {
         },
         dataType: 'json',
         success: function (responseText) {
-            if (responseText.STATE === "SUCCESS") {
+            if (responseText.STATE === "SUCCESS" && parseInt(responseText.IDCONVERSACION) === parseInt(getCookie('IDCONVERSACION'))) {
                 var arrayMensajes = $.parseJSON(responseText.HISTORIAL_CHAT);
                 var i;
                 var html = '';
@@ -131,11 +130,11 @@ function sendChat() {
         dataType: 'json',
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
-                getMensajesChat(getCookie('IDCONVERSACION'), getCookie('IDUSEREMISOR'), getCookie('IDUSERRECEPTOR'), getCookie('RECEPTORNOMBRE'));
+                getMensajesChat();
                 document.getElementById('mensaje').value = '';
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });

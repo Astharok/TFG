@@ -11,6 +11,7 @@ function login() {
         dataType: 'json',
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
+                toast("mainToast", "Login correcto");
                 var user = $.parseJSON(responseText.LOGUED_USER);
                 setCookie("ID_USUARIO", user.iDUsuario, 1);
                 setCookie("NOMBRE", user.nombre, 1);
@@ -27,7 +28,7 @@ function login() {
                     window.location.href = "client.jsp";
                 }
             } else {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
@@ -35,6 +36,7 @@ function login() {
 
 function disconnect() {
     deleteAllCookies();
+    toast("mainToast", "Desconectado");
     window.location.href = "index.jsp";
 }
 
@@ -73,7 +75,7 @@ function loadUsers() {
                 document.getElementById("UsuariosRows").innerHTML = html;
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
@@ -87,7 +89,7 @@ function register() {
     var email = $('#email').val();
     var telefono = $('#phone').val();
     var grupo = $('#group').val();
-    if (grupo ==='Cliente') {
+    if (grupo === 'Cliente') {
         grupo = 'Clientes';
     }
     if (grupo === 'Administrador') {
@@ -116,14 +118,14 @@ function register() {
                         GRUPOFK: grupofk
                     },
                     success: function (responseText) {
-                        alert("Usuario registrado correctamente");
+                        toast("mainToast", "Usuario registrado");
                         loadUsers();
                         formToogleShow('main-register-form');
                     }
                 });
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
@@ -157,6 +159,29 @@ function getUserForEdit(idUser) {
     });
 }
 
+function getUserForOwnEdit() {
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.FIND',
+            IDUSUARIO: getCookie("ID_USUARIO")
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if (responseText.STATE === "SUCCESS") {
+                var user = $.parseJSON(responseText.USUARIO);
+                document.getElementById("idUsuarioEdit").value = user.iDUsuario;
+                document.getElementById("userNameEdit").value = user.apodo;
+                document.getElementById("emailEdit").value = user.email;
+                document.getElementById("nameEdit").value = user.nombre;
+                document.getElementById("surnameEdit").value = user.apellido;
+                document.getElementById("phoneEdit").value = user.telefono;
+                document.getElementById("passwordEdit").value = '';
+            }
+        }
+    });
+}
+
 function editUser() {
     var idUsuarioEdit = $('#idUsuarioEdit').val();
     var userNameEdit = $('#userNameEdit').val();
@@ -164,7 +189,7 @@ function editUser() {
     var nameEdit = $('#nameEdit').val();
     var surnameEdit = $('#surnameEdit').val();
     var phoneEdit = $('#phoneEdit').val();
-    var passwordEdit = $('#passwordEdit').val();
+    var passwordEdit = hashcode($('#passwordEdit').val());
     var groupEdit = $('#groupEdit').val();
     if (groupEdit === 'Cliente') {
         groupEdit = 'Clientes';
@@ -197,13 +222,41 @@ function editUser() {
                     },
                     success: function (responseText) {
                         loadUsers();
+                        toast("mainToast", "Usuario editado");
                         formToogleShow('main-edit-user-form');
                     }
                 });
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
+        }
+    });
+}
+
+function editOwnUser() {
+    var idUsuarioEdit = $('#idUsuarioEdit').val();
+    var userNameEdit = $('#userNameEdit').val();
+    var emailEdit = $('#emailEdit').val();
+    var nameEdit = $('#nameEdit').val();
+    var surnameEdit = $('#surnameEdit').val();
+    var phoneEdit = $('#phoneEdit').val();
+    var passwordEdit = hashcode($('#passwordEdit').val());
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.EDIT',
+            IDUSUARIO: idUsuarioEdit,
+            NOMBRE: nameEdit,
+            APELLIDO: surnameEdit,
+            APODO: userNameEdit,
+            PASSWORD: passwordEdit,
+            EMAIL: emailEdit,
+            TELEFONO: phoneEdit
+        },
+        success: function (responseText) {
+            toast("mainToast", "Usuario editado");
+            getUserForOwnEdit();
         }
     });
 }
@@ -220,8 +273,9 @@ function comprobarSaldo(idusuariosaldo) {
             if (responseText.STATE === "SUCCESS") {
                 var user = $.parseJSON(responseText.USUARIO);
                 var saldo = user.saldo;
+                var tarifa = user.iDGrupoUsuarioFK.iDTarifaFK.precioporhora;
                 var equipoActivo = document.getElementById("equipoActivo");
-                if(equipoActivo !== null){
+                if (equipoActivo !== null) {
                     var horaini = equipoActivo.cells.namedItem("horaini");
                     var segundos = 0;
                     var counterIni = 0;
@@ -238,14 +292,16 @@ function comprobarSaldo(idusuariosaldo) {
                     var precioHora = user.iDGrupoUsuarioFK.iDTarifaFK.precioporhora;
                     var precioSegundo = precioHora / 3600;
                     saldo = saldo - segundos * precioSegundo;
+                    if (saldo <= 0) {
+                        toast("mainToast", "Equipo desactivado por falta de saldo");
+                        desactivarEquipo(null);
+                    }
                 }
-                document.getElementById("saldoMainView").innerHTML = 'Tu saldo actual es de ' + Math.round(saldo*100)/100 + ' €';
-                if(saldo <= 0){
-                    desactivarEquipo(null);
-                }
+                document.getElementById("saldoMainView").innerHTML = 'Tu saldo actual es de ' + Math.round(saldo * 100) / 100 + ' €';
+                document.getElementById("tarifaMainView").innerHTML = 'Tu tarifa actual es: ' + Math.round(tarifa * 100) / 100 + ' €/hora';
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
@@ -271,16 +327,17 @@ function changeSaldo() {
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
                 loadUsers();
+                toast("mainToast", "Saldo modificado");
                 formToogleShow('main-saldo-form');
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
 }
 
-function loadAdmins() {
+function loadUsersForChat() {
     $.ajax({
         url: '/TFG_Web/ControllerTFG',
         data: {
@@ -293,7 +350,8 @@ function loadAdmins() {
                 var i;
                 var html = "";
                 for (i = 0; i < myArr.length; i++) {
-                    html += ""
+                    if(myArr[i].iDUsuario !== parseInt(getCookie("ID_USUARIO"))){
+                        html += ""
                             + "<tr>"
                             + "<th scope=\"row\">" + myArr[i].iDUsuario + "</th>"
                             + "<td>" + myArr[i].apodo + "</td>"
@@ -303,11 +361,12 @@ function loadAdmins() {
                             + "<button onclick=\"formToogleShow('main-chat-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-info btn-sm\">Mensaje</button>"
                             + "</td>"
                             + "</tr>";
+                    }
                 }
                 document.getElementById("UsuariosRows").innerHTML = html;
             }
             if (responseText.STATE === "FAILURE") {
-                alert(responseText.STATE + ": " + responseText.MESSAGE);
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
     });
