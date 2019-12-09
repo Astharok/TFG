@@ -62,6 +62,9 @@ public class ControllerTFG extends HttpServlet {
                 case "Sesion":
                     results = new SesionAction().execute(request, response);
                     break;
+                case "Aviso":
+                    results = new AvisoAction().execute(request, response);
+                    break;
                     
                 default:
             }
@@ -72,7 +75,7 @@ public class ControllerTFG extends HttpServlet {
             
             out.print(results);
             
-            //Util.showResults(Util.fromJson(results));
+            Util.showResults(Util.fromJson(results));
             
             response.setStatus(HttpServletResponse.SC_OK);
             
