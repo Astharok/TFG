@@ -40,6 +40,9 @@ public class EquipoAction implements Action {
             case "DESACTIVAR":
                 results = desactivar(request, response);
                 break;
+            case "ELIMINAR":
+                results = eliminar(request, response);
+                break;
         }
 
         return results;
@@ -74,6 +77,17 @@ public class EquipoAction implements Action {
         historial.setIDHistorialEquipo(Integer.valueOf(request.getParameter("HISTORIALID")));
         
         Map<String, String> res = equipoDAO.desactivar(historial);
+
+        return Util.toJson(res);
+    }
+
+    private String eliminar(HttpServletRequest request, HttpServletResponse response) {
+        EquipoDAO equipoDAO = bd.getEquipoDAO();
+        
+        Equipos equipo = new Equipos();
+        equipo.setIDEquipo(Integer.valueOf(request.getParameter("IDEQUIPO")));
+        
+        Map<String, String> res = equipoDAO.eliminar(equipo);
 
         return Util.toJson(res);
     }

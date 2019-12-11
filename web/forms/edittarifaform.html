@@ -1,0 +1,29 @@
+<head>
+    <link rel="stylesheet" href="css/edittarifaform.css">
+</head>
+<div id="main-edit-tarifa-form" class="edit-tarifa-form hidden" onclick="formToogleShow('main-edit-tarifa-form', 'NotNull');">
+    <form class="edit-tarifa-form" method="get" action="javascript:updateTarifa();" onclick="window.event.stopPropagation();">
+        <button onclick="eliminarTarifa();" type="button" class="btn btn-danger">Eliminar</button>
+        <h2 class="text-center">Editar Tarifa</h2>
+        <div class="form-group">
+            <label for="tarifaGroupEdit">Tarifa</label>
+            <select id="tarifaEdit" class="form-control" onchange="selectorTarifa();">
+                <option selected>Opcion 1</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <input id = "idTarifaEdit" type="hidden" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="nombreTarifaEdit">Nombre</label>
+            <input id = "nombreTarifaEdit" type="text" class="form-control" placeholder="Nombre del grupo" required="required">
+        </div>
+        <div class="form-group">
+            <label for="precioTarifaEdit">Precio por hora</label>
+            <input id = "precioTarifaEdit" type="number" class="form-control" placeholder="Precio por hora" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Editar</button>
+        </div>
+    </form>
+</div>

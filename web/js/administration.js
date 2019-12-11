@@ -50,9 +50,8 @@ function openTab(evt, tabName) {
     document.getElementById(tabName).style.display = "block";
     evt.currentTarget.className += " active";
     
-    setCookie("ADMINSVIEW", false, 1);
+    setCookie("USERSVIEW", false, 1);
     setCookie("EQUIPOSVIEW", false, 1);
-    setCookie("GRUOPSVIEW", false, 1);
     setCookie("CHATVIEW", false, 1);
 
     switch (tabName) {
@@ -61,7 +60,7 @@ function openTab(evt, tabName) {
             loadEquipos();
             break;
         case "Usuarios":
-            setCookie("ADMINSVIEW", true, 1);
+            setCookie("USERSVIEW", true, 1);
             loadUsers();
             break;
         case "Ajustes":
@@ -75,8 +74,11 @@ function openTab(evt, tabName) {
 function formToogleShow(formName, value) {
     setCookie('IDCONVERSACION', null, 1);
     setCookie("EQUIPOSVIEW", false, 1);
-    setCookie("ADMINSVIEW", false, 1);
+    setCookie("USERSVIEW", false, 1);
     setCookie("CHATVIEW", false, 1);
+    if (formName === 'main-register-form' && value === null) {
+        getgroupsForRegisterUser();
+    }
     if (formName === 'main-saldo-form' && value !== null) {
         document.getElementById("idUsuarioSaldo").value = value;
     }
@@ -91,7 +93,16 @@ function formToogleShow(formName, value) {
         setCookie("CHATVIEW", true, 1);
     }
     if (formName === 'main-chat-form' && value === null) {
-        setCookie("ADMINSVIEW", true, 1);
+        setCookie("USERSVIEW", true, 1);
+    }
+    if (formName === 'main-create-group-form' && value === null) {
+        getTarifasForNewGroup();
+    }
+    if (formName === 'main-edit-group-form' && value !== null) {
+        getGroupForEdit(value);
+    }
+    if (formName === 'main-edit-tarifa-form' && value === null) {
+        getTarifasForEdit(value);
     }
     var docClasses = document.getElementById(formName).classList;
     if (docClasses.contains('hidden')) {

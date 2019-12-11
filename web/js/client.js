@@ -2,7 +2,6 @@ function loadContent() {
     checkSession();
     document.getElementById("defaultOpen").click();
     document.getElementById("userTitle").innerHTML = 'Bienvenido ' + getCookie('NOMBRE') + ' ' + getCookie('APELLIDO');
-    getAdvises(getCookie('ID_USUARIO'));
     window.setInterval(loadData, 5000);
 }
 
@@ -14,7 +13,7 @@ function loadData() {
         getMensajesChat();
     }
     comprobarSaldo(getCookie("ID_USUARIO"));
-    //getAdvises(getCookie('ID_USUARIO'));
+    getAdvises(getCookie('ID_USUARIO'));
 }
 
 function checkSession() {
