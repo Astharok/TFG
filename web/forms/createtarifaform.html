@@ -1,0 +1,19 @@
+<head>
+    <link rel="stylesheet" href="css/createtarifaform.css">
+</head>
+<div id="main-create-tarifa-form" class="create-tarifa-form hidden" onclick="formToogleShow('main-create-tarifa-form', null);">
+    <form class="create-tarifa-form" method="get" action="javascript:insertTarifa();" onclick="window.event.stopPropagation();">
+        <h2 class="text-center">Crear tarifa</h2>       
+        <div class="form-group">
+            <label for="nombreTarifaInsert">Nombre</label>
+            <input id = "nombreTarifaInsert" type="text" class="form-control" placeholder="Nombre de tarifa" required="required">
+        </div>
+        <div class="form-group">
+            <label for="precioTarifaInsert">Precio por hora</label>
+            <input id = "precioTarifaInsert" type="number" class="form-control" placeholder="Precio por hora" required="required">
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </div>
+    </form>
+</div>

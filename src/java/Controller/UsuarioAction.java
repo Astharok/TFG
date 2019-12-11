@@ -49,6 +49,9 @@ public class UsuarioAction implements Action {
             case "EDIT":
                 results = edit(request, response);
                 break;
+            case "ELIMINAR":
+                results = eliminar(request, response);
+                break;
         }
 
         return results;
@@ -80,8 +83,6 @@ public class UsuarioAction implements Action {
         usuario.setEmail(request.getParameter("EMAIL"));
         usuario.setTelefono(request.getParameter("TELEFONO"));
         usuario.setIDGrupoUsuarioFK(grupo);
-        
-        System.out.println(usuario);
         
         Map<String, String> res = usuarioDAO.insertarUsuario(usuario);
 
@@ -143,6 +144,17 @@ public class UsuarioAction implements Action {
         usuario.setIDGrupoUsuarioFK(grupo);
         
         Map<String, String> res = usuarioDAO.editarUsuario(usuario);
+
+        return Util.toJson(res);
+    }
+
+    private String eliminar(HttpServletRequest request, HttpServletResponse response) {
+        UsuarioDAO usuarioDAO = bd.getUsuarioDAO();
+        
+        Usuarios usuario = new Usuarios();
+        usuario.setIDUsuario(Integer.parseInt(request.getParameter("IDUSUARIO")));
+        
+        Map<String, String> res = usuarioDAO.eliminar(usuario);
 
         return Util.toJson(res);
     }

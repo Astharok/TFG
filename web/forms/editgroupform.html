@@ -1,0 +1,25 @@
+<head>
+    <link rel="stylesheet" href="css/editgroupform.css">
+</head>
+<div id="main-edit-group-form" class="edit-group-form hidden" onclick="formToogleShow('main-edit-group-form', null);">
+    <form class="edit-group-form" method="get" action="javascript:updateGroup();" onclick="window.event.stopPropagation();">
+        <button onclick="eliminarGrupo();" type="button" class="btn btn-danger">Eliminar</button>
+        <h2 class="text-center">Editar grupo</h2>  
+        <div class="form-group">
+            <input id = "idGroupEdit" type="hidden" class="form-control">
+        </div>
+        <div class="form-group">
+            <label for="groupNameEdit">Nombre</label>
+            <input id = "groupNameEdit" type="text" class="form-control" placeholder="Nombre del grupo" required="required">
+        </div>
+        <div class="form-group">
+            <label for="tarifaGroupEdit">Tarifa</label>
+            <select id="tarifaGroupEdit" class="form-control">
+                <option selected>Opcion 1</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Editar</button>
+        </div>
+    </form>
+</div>

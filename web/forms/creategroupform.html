@@ -1,0 +1,21 @@
+<head>
+    <link rel="stylesheet" href="css/creategroupform.css">
+</head>
+<div id="main-create-group-form" class="create-group-form hidden" onclick="formToogleShow('main-create-group-form');">
+    <form class="create-group-form" method="get" action="javascript:insertGroup();" onclick="window.event.stopPropagation();">
+        <h2 class="text-center">Crear nuevo grupo</h2>       
+        <div class="form-group">
+            <label for="groupNameNew">Nombre</label>
+            <input id = "groupNameNew" type="text" class="form-control" placeholder="Nombre del grupo" required="required">
+        </div>
+        <div class="form-group">
+            <label for="tarifaGroupNew">Tarifa</label>
+            <select id="tarifaGroupNew" class="form-control">
+                <option selected>Opcion 1</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary btn-block">Registrar</button>
+        </div>
+    </form>
+</div>

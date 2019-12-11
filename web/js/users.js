@@ -56,6 +56,7 @@ function loadUsers() {
                     html += ""
                             + "<tr>"
                             + "<th scope=\"row\">" + myArr[i].iDUsuario + "</th>"
+                            + "<td>" + myArr[i].iDGrupoUsuarioFK.nombre + "</td>"
                             + "<td>" + myArr[i].apodo + "</td>"
                             + "<td>" + myArr[i].nombre + "</td>"
                             + "<td>" + myArr[i].apellido + "</td>"
@@ -63,7 +64,7 @@ function loadUsers() {
                             + "<td>" + myArr[i].telefono + "</td>"
                             + "<td>" + myArr[i].saldo + " €" + "</td>"
                             //+ "<td>" + "<button class=\"btn btn-secondary dropdown-toggle\" type=\"button\" id=\"usersMenu\" data-toggle=\"dropdown\" aria-haspopup=\"true\" aria-expanded=\"false\">Menú</button>" + "</td>"
-                            + "<td>"
+                            + "<td class=\"user-actions\">"
                             + "<button onclick=\"formToogleShow('main-saldo-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-primary btn-sm\">Saldo</button>"
                             + "  "
                             + "<button onclick=\"formToogleShow('main-edit-user-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-secondary btn-sm\">Editar</button>"
@@ -88,43 +89,26 @@ function register() {
     var password = hashcode($('#password').val());
     var email = $('#email').val();
     var telefono = $('#phone').val();
-    var grupo = $('#group').val();
-    if (grupo === 'Cliente') {
-        grupo = 'Clientes';
-    }
-    if (grupo === 'Administrador') {
-        grupo = 'Administradores';
-    }
+    var grupofk = $('#groupUserRegister').val();
     $.ajax({
         url: '/TFG_Web/ControllerTFG',
         data: {
-            ACTION: 'Grupo.FIND',
-            GRUPO: grupo
+            ACTION: 'Usuario.REGISTER',
+            NOMBRE: nombre,
+            APELLIDO: apellido,
+            APODO: apodo,
+            PASSWORD: password,
+            EMAIL: email,
+            TELEFONO: telefono,
+            GRUPOFK: grupofk
         },
         dataType: 'json',
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
-                var grupofk = responseText.ID;
-                $.ajax({
-                    url: '/TFG_Web/ControllerTFG',
-                    data: {
-                        ACTION: 'Usuario.REGISTER',
-                        NOMBRE: nombre,
-                        APELLIDO: apellido,
-                        APODO: apodo,
-                        PASSWORD: password,
-                        EMAIL: email,
-                        TELEFONO: telefono,
-                        GRUPOFK: grupofk
-                    },
-                    success: function (responseText) {
-                        toast("mainToast", "Usuario registrado");
-                        loadUsers();
-                        formToogleShow('main-register-form');
-                    }
-                });
-            }
-            if (responseText.STATE === "FAILURE") {
+                toast("mainToast", "Usuario registrado");
+                loadUsers();
+                formToogleShow('main-register-form', 'NotNull');
+            } else {
                 toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
@@ -148,13 +132,8 @@ function getUserForEdit(idUser) {
                 document.getElementById("nameEdit").value = user.nombre;
                 document.getElementById("surnameEdit").value = user.apellido;
                 document.getElementById("phoneEdit").value = user.telefono;
-                if (user.iDGrupoUsuarioFK.nombre === "Clientes") {
-                    document.getElementById("groupEdit").value = "Cliente";
-                }
-                if (user.iDGrupoUsuarioFK.nombre === "Administradores") {
-                    document.getElementById("groupEdit").value = "Administrador";
-                }
             }
+            getgroupsForEditUser(user.iDGrupoUsuarioFK.iDGrupoUsuarios);
         }
     });
 }
@@ -190,44 +169,27 @@ function editUser() {
     var surnameEdit = $('#surnameEdit').val();
     var phoneEdit = $('#phoneEdit').val();
     var passwordEdit = hashcode($('#passwordEdit').val());
-    var groupEdit = $('#groupEdit').val();
-    if (groupEdit === 'Cliente') {
-        groupEdit = 'Clientes';
-    }
-    if (groupEdit === 'Administrador') {
-        groupEdit = 'Administradores';
-    }
+    var grupofk = $('#groupUserEdit').val();
     $.ajax({
         url: '/TFG_Web/ControllerTFG',
         data: {
-            ACTION: 'Grupo.FIND',
-            GRUPO: groupEdit
+            ACTION: 'Usuario.EDIT',
+            IDUSUARIO: idUsuarioEdit,
+            NOMBRE: nameEdit,
+            APELLIDO: surnameEdit,
+            APODO: userNameEdit,
+            PASSWORD: passwordEdit,
+            EMAIL: emailEdit,
+            TELEFONO: phoneEdit,
+            GRUPOFK: grupofk
         },
         dataType: 'json',
         success: function (responseText) {
             if (responseText.STATE === "SUCCESS") {
-                var grupofk = responseText.ID;
-                $.ajax({
-                    url: '/TFG_Web/ControllerTFG',
-                    data: {
-                        ACTION: 'Usuario.EDIT',
-                        IDUSUARIO: idUsuarioEdit,
-                        NOMBRE: nameEdit,
-                        APELLIDO: surnameEdit,
-                        APODO: userNameEdit,
-                        PASSWORD: passwordEdit,
-                        EMAIL: emailEdit,
-                        TELEFONO: phoneEdit,
-                        GRUPOFK: grupofk
-                    },
-                    success: function (responseText) {
-                        loadUsers();
-                        toast("mainToast", "Usuario editado");
-                        formToogleShow('main-edit-user-form');
-                    }
-                });
-            }
-            if (responseText.STATE === "FAILURE") {
+                toast("mainToast", "Usuario editado");
+                loadUsers();
+                formToogleShow('main-edit-user-form', null);
+            } else {
                 toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }
@@ -350,22 +312,43 @@ function loadUsersForChat() {
                 var i;
                 var html = "";
                 for (i = 0; i < myArr.length; i++) {
-                    if(myArr[i].iDUsuario !== parseInt(getCookie("ID_USUARIO"))){
+                    if (myArr[i].iDUsuario !== parseInt(getCookie("ID_USUARIO"))) {
                         html += ""
-                            + "<tr>"
-                            + "<th scope=\"row\">" + myArr[i].iDUsuario + "</th>"
-                            + "<td>" + myArr[i].apodo + "</td>"
-                            + "<td>" + myArr[i].nombre + "</td>"
-                            + "<td>" + myArr[i].apellido + "</td>"
-                            + "<td>"
-                            + "<button onclick=\"formToogleShow('main-chat-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-info btn-sm\">Mensaje</button>"
-                            + "</td>"
-                            + "</tr>";
+                                + "<tr>"
+                                + "<th scope=\"row\">" + myArr[i].iDUsuario + "</th>"
+                                + "<td>" + myArr[i].apodo + "</td>"
+                                + "<td>" + myArr[i].nombre + "</td>"
+                                + "<td>" + myArr[i].apellido + "</td>"
+                                + "<td>"
+                                + "<button onclick=\"formToogleShow('main-chat-form', " + myArr[i].iDUsuario + ");\" type=\"button\" class=\"btn btn-info btn-sm\">Mensaje</button>"
+                                + "</td>"
+                                + "</tr>";
                     }
                 }
                 document.getElementById("UsuariosRows").innerHTML = html;
             }
             if (responseText.STATE === "FAILURE") {
+                toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
+            }
+        }
+    });
+}
+
+function eliminarUsuario() {
+    var idUsuarioEdit = $('#idUsuarioEdit').val();
+    $.ajax({
+        url: '/TFG_Web/ControllerTFG',
+        data: {
+            ACTION: 'Usuario.ELIMINAR',
+            IDUSUARIO: idUsuarioEdit
+        },
+        dataType: 'json',
+        success: function (responseText) {
+            if (responseText.STATE === "SUCCESS") {
+                toast("mainToast", "Usuario eliminado");
+                loadUsers();
+                formToogleShow('main-edit-user-form', null);
+            } else {
                 toast("mainToast", responseText.STATE + ": " + responseText.MESSAGE);
             }
         }

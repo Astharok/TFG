@@ -130,3 +130,7 @@ thead, tbody tr {
 .use{
     background-color: palegreen;
 }
+
+.user-actions{
+    width: 210px;
+}

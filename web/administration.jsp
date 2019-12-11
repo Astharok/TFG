@@ -31,6 +31,10 @@
         <%@include  file="forms/edituserform.html" %>
         <%@include  file="forms/chatform.html" %>
         <%@include  file="forms/adviseform.html" %>
+        <%@include  file="forms/creategroupform.html" %>
+        <%@include  file="forms/editgroupform.html" %>
+        <%@include  file="forms/createtarifaform.html" %>
+        <%@include  file="forms/edittarifaform.html" %>
     </head>
     <body onload="javascript:loadContent()">
         <header>
@@ -79,18 +83,19 @@
                                         Menú
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-register-form');">Crear usuario</button>
+                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-register-form', null);">Crear usuario</button>
                                         <button class="dropdown-item" type="button" onclick="formToogleShow('main-advise-form', null);">Crear aviso</button>
                                     </div>
                                 </div>
                             </th>
+                            <th scope="col">Grupo</th>
                             <th scope="col">Apodo</th>
                             <th scope="col">Nombre</th>
                             <th scope="col">Apellidos</th>
                             <th scope="col">Email</th>
                             <th scope="col">Teléfono</th>
                             <th scope="col">Saldo</th>
-                            <th scope="col">Acciones</th>
+                            <th scope="col" class="user-actions">Acciones</th>
                         </tr>
                     </thead>
                     <tbody id="UsuariosRows" class="">
@@ -108,10 +113,9 @@
                                         Menú
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-crear-grupo-form');">Crear grupo</button>
-                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-editar-grupo-form', null);">Editar grupo</button>
-                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-crear-tarifa-form', null);">Crear tarifa</button>
-                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-editar-tarifa-form', null);">Editar tarifa</button>
+                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-create-group-form', null);">Crear grupo</button>
+                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-create-tarifa-form', null);">Crear tarifa</button>
+                                        <button class="dropdown-item" type="button" onclick="formToogleShow('main-edit-tarifa-form', null);">Editar tarifa</button>
                                     </div>
                                 </div>
                             </th>

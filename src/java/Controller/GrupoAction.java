@@ -36,8 +36,26 @@ public class GrupoAction implements Action {
             case "FINDALL":
                 results = findall(request, response);
                 break;
+            case "INSERTAGRUPO":
+                results = insertaGrupo(request, response);
+                break;
+            case "UPDATEGRUPO":
+                results = updateGrupo(request, response);
+                break;
+            case "INSERTATARIFA":
+                results = insertaTarifa(request, response);
+                break;
             case "UPDATETARIFA":
                 results = updateTarifa(request, response);
+                break;
+            case "FINDTARIFA":
+                results = findTarifa(request, response);
+                break;
+            case "ELIMINARGRUPO":
+                results = eliminarGrupo(request, response);
+                break;
+            case "ELIMINARTARIFA":
+                results = eliminarTarifa(request, response);
                 break;
         }
 
@@ -48,7 +66,7 @@ public class GrupoAction implements Action {
         GrupoDAO grupoDAO = bd.getGrupoDAO();
 
         GruposUsuarios grupo = new GruposUsuarios();
-        grupo.setNombre(request.getParameter("GRUPO"));
+        grupo.setIDGrupoUsuarios(Integer.parseInt(request.getParameter("IDGRUPO")));
         
         Map<String, String> res = grupoDAO.find(grupo);
 
@@ -63,16 +81,91 @@ public class GrupoAction implements Action {
         return Util.toJson(res);
     }
 
+    private String insertaGrupo(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
+        
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setNombre(request.getParameter("NOMBRE"));
+        grupo.setIDTarifaFK(tarifa);
+        
+        Map<String, String> res = grupoDAO.insertaGrupo(grupo);
+
+        return Util.toJson(res);
+    }
+
+    private String updateGrupo(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
+        
+        GruposUsuarios grupo = new GruposUsuarios();
+        grupo.setIDGrupoUsuarios(Integer.valueOf(request.getParameter("IDGRUPO")));
+        grupo.setNombre(request.getParameter("NOMBRE"));
+        grupo.setIDTarifaFK(tarifa);
+        
+        Map<String, String> res = grupoDAO.updateGrupo(grupo);
+
+        return Util.toJson(res);
+    }
+    
+    private String insertaTarifa(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setNombre(request.getParameter("NOMBRE"));
+        tarifa.setPrecioporhora(Double.valueOf(request.getParameter("PRECIO")));
+        
+        Map<String, String> res = grupoDAO.insertaTarifa(tarifa);
+
+        return Util.toJson(res);
+    }
+    
     private String updateTarifa(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
+        tarifa.setNombre(request.getParameter("NOMBRE"));
+        tarifa.setPrecioporhora(Double.valueOf(request.getParameter("PRECIO")));
+        
+        Map<String, String> res = grupoDAO.updateTarifa(tarifa);
+
+        return Util.toJson(res);
+    }
+
+    private String findTarifa(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
+        Tarifas tarifa = new Tarifas();
+        tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
+        
+        Map<String, String> res = grupoDAO.findTarifa(tarifa);
+
+        return Util.toJson(res);
+    }
+
+    private String eliminarGrupo(HttpServletRequest request, HttpServletResponse response) {
         GrupoDAO grupoDAO = bd.getGrupoDAO();
         
         GruposUsuarios grupo = new GruposUsuarios();
         grupo.setIDGrupoUsuarios(Integer.valueOf(request.getParameter("IDGRUPO")));
         
+        Map<String, String> res = grupoDAO.eliminarGrupo(grupo);
+
+        return Util.toJson(res);
+    }
+
+    private String eliminarTarifa(HttpServletRequest request, HttpServletResponse response) {
+        GrupoDAO grupoDAO = bd.getGrupoDAO();
+        
         Tarifas tarifa = new Tarifas();
         tarifa.setIDTarifa(Integer.valueOf(request.getParameter("IDTARIFA")));
         
-        Map<String, String> res = grupoDAO.updateTarifa(grupo, tarifa);
+        Map<String, String> res = grupoDAO.eliminarTarifa(tarifa);
 
         return Util.toJson(res);
     }

@@ -1,8 +1,9 @@
 <head>
     <link rel="stylesheet" href="css/edituserform.css">
 </head>
-<div id="main-edit-user-form" class="edit-user-form hidden" onclick="formToogleShow('main-edit-user-form');">
+<div id="main-edit-user-form" class="edit-user-form hidden" onclick="formToogleShow('main-edit-user-form', null);">
     <form class="edit-user-form" method="get" action="javascript:editUser();" onclick="window.event.stopPropagation();">
+        <button onclick="eliminarUsuario();" type="button" class="btn btn-danger">Eliminar</button>
         <h2 class="text-center">Editar Usuario</h2>
         <div class="form-group">
             <input id = "idUsuarioEdit" type="hidden" class="form-control">
@@ -26,9 +27,8 @@
             <input id = "passwordEdit" type="password" class="form-control" placeholder="Password">
         </div>
         <div class="form-group">
-            <select id="groupEdit" class="form-control">
-                <option selected>Cliente</option>
-                <option>Administrador</option>
+            <select id="groupUserEdit" class="form-control">
+                <option selected>Opcion 1</option>
             </select>
         </div>
         <div class="form-group">
